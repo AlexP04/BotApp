@@ -2,6 +2,25 @@ import urllib.request
 import json
 import pandas as pd
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import os
+import http.server
+import socketserver
+
+from http import HTTPStatus
+
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(HTTPStatus.OK)
+        self.end_headers()
+        msg = 'Hello! you requested %s' % (self.path)
+        self.wfile.write(msg.encode())
+
+
+port = int(os.getenv('PORT', 80))
+print('Listening on port %s' % (port))
+httpd = socketserver.TCPServer(('', port), Handler)
+httpd.serve_forever()
 
 token_bot = "5188923176:AAELDsPcHxjFTUmstMGPOslv6vmfcVODYak"
 api_https = "https://go-upc.com/api/v1/code/"
@@ -51,3 +70,6 @@ dispatcher.add_handler(CommandHandler("start", on_start))
 dispatcher.add_handler(MessageHandler(Filters.all, on_message))
 updater.start_polling()
 updater.idle()
+
+
+
