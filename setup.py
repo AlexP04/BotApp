@@ -20,8 +20,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 port = int(os.getenv('PORT', 80))
 print('Listening on port %s' % (port))
 httpd = socketserver.TCPServer(('', port), Handler)
-httpd.serve_forever()
-
 token_bot = "5188923176:AAELDsPcHxjFTUmstMGPOslv6vmfcVODYak"
 api_https = "https://go-upc.com/api/v1/code/"
 
@@ -38,7 +36,7 @@ def find_barcode_info(code, api_https = api_https):
 
 def on_start(update, context):
     chat = update.effective_chat
-    context.bot.send_message(chat_id=chat.id, text="""Glory to Ukraine! I'm a bot used to find"
+    context.bot.send_message(chat_id=chat.id, text="""Glory to Ukraine! I'm a bot used to find
                                                    information about barcodes to find out 
                                                    brands working with russians!""")
 
@@ -70,6 +68,8 @@ dispatcher.add_handler(CommandHandler("start", on_start))
 dispatcher.add_handler(MessageHandler(Filters.all, on_message))
 updater.start_polling()
 updater.idle()
+httpd.serve_forever()
+
 
 
 
