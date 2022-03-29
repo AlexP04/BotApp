@@ -24,7 +24,7 @@ httpd = socketserver.TCPServer(('', port), Handler)
 
 token_bot ="5188923176:AAELDsPcHxjFTUmstMGPOslv6vmfcVODYak"
 ##"5134608807:AAHX4PVVtDMFQ-AgF7s3K_kCLqH8k9JyGuk"\
-           
+
 api_https = "https://go-upc.com/api/v1/code/"
 
 
@@ -60,7 +60,7 @@ def on_start(update, context):
 def check_if_prorussian(product_name, list_of_companies=list_of_companies ):
     try:
         product_name = product_name.lower()
-        splitted_name = re.split(r'\s+|[,;.-]\s*', product_name)
+        splitted_name = re.split(r'\s+|["!&?,;:=@+.-]\s*', product_name)
         list_of_companies['Detected'] = list_of_companies['BrandName'].apply(lambda x: x.lower() in splitted_name)
         if list_of_companies['Detected'].sum() > 0:
             return list_of_companies[list_of_companies['Detected']]['Status'].values[0]
